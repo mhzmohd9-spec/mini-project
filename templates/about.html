@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignTranslate - About & Reviews</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fa-solid fa-hands-asl-interpreting"></i>
+                <span>Sign<span>Translate</span></span>
+            </a>
+            <nav class="nav-links">
+                <a href="/">Home</a>
+                <a href="/translator">Live Translator</a>
+                <a href="/guide">Booklet & Video</a>
+                <a href="/about" class="active">About</a>
+            </nav>
+            <a href="/translator" class="cta-nav">Launch Camera</a>
+        </div>
+    </header>
+
+    <main class="main-container" style="margin-top: 130px;">
+        <section class="glass-panel">
+            
+            <div class="section-header">
+                <h2>
+                    <span class="line-reveal"><span><i class="fa-solid fa-comment-dots gradient-icon"></i> User Reviews</span></span>
+                    <span class="line-reveal"><span>& Community Feedback</span></span>
+                </h2>
+                <p class="scroll-light">Leave your honest feedback and rating for the SignTranslate platform below.</p>
+            </div>
+
+            <!-- Submit Review Form -->
+            <div style="max-width: 650px; margin: 0 auto 3rem auto; background: rgba(18, 14, 29, 0.6); padding: 2rem; border-radius: 16px; border: 1px solid var(--card-border);">
+                <h3 style="color: var(--c-lavender); margin-bottom: 1rem;"><i class="fa-solid fa-pen"></i> Submit Your Review</h3>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.4rem;">Select Star Rating</label>
+                    <div class="star-rating" id="star-box">
+                        <i class="fa-solid fa-star" data-value="1"></i>
+                        <i class="fa-solid fa-star" data-value="2"></i>
+                        <i class="fa-solid fa-star" data-value="3"></i>
+                        <i class="fa-solid fa-star" data-value="4"></i>
+                        <i class="fa-solid fa-star" data-value="5"></i>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" id="reviewer-name" placeholder="Your Name" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--card-border); background: var(--bg-darker); color: var(--text-primary);">
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <textarea id="reviewer-text" rows="4" placeholder="Write your feedback here..." style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--card-border); background: var(--bg-darker); color: var(--text-primary); resize: none;"></textarea>
+                </div>
+
+                <button class="btn-primary" id="btn-submit-review" style="width: 100%;">Submit Review</button>
+            </div>
+
+            <!-- Dynamic Review Display Grid -->
+            <div id="reviews-container" class="side-by-side-grid">
+                <!-- User reviews will append here automatically -->
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 SignTranslate Framework. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Interactive Review System Script -->
+    <script>
+        let selectedStars = 5;
+        const stars = document.querySelectorAll('#star-box i');
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                selectedStars = star.getAttribute('data-value');
+                stars.forEach(s => {
+                    if (s.getAttribute('data-value') <= selectedStars) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        document.getElementById('btn-submit-review').addEventListener('click', () => {
+            const name = document.getElementById('reviewer-name').value.trim() || "Anonymous User";
+            const text = document.getElementById('reviewer-text').value.trim();
+
+            if (!text) {
+                alert("Please enter a feedback message.");
+                return;
+            }
+
+            let starHtml = '';
+            for (let i = 0; i < selectedStars; i++) starHtml += '<i class="fa-solid fa-star" style="color: #f39c12;"></i> ';
+
+            const reviewCard = document.createElement('div');
+            reviewCard.className = 'glass-card';
+            reviewCard.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                    <strong style="color: var(--c-lavender);">${name}</strong>
+                    <div>${starHtml}</div>
+                </div>
+                <p style="color: var(--text-secondary); line-height: 1.5;">"${text}"</p>
+            `;
+
+            document.getElementById('reviews-container').prepend(reviewCard);
+
+            // Clear inputs
+            document.getElementById('reviewer-name').value = '';
+            document.getElementById('reviewer-text').value = '';
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const lightElements = document.querySelectorAll(".scroll-light");
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add("lit-up");
+                });
+            }, { threshold: 0.2 });
+            lightElements.forEach(el => observer.observe(el));
+        });
+    </script>
+
+</body>
+</html>

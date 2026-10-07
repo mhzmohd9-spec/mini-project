@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignTranslate - Real-Time Sign & Audio Translator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fa-solid fa-hands-asl-interpreting"></i>
+                <span>Sign<span>Translate</span></span>
+            </a>
+            <nav class="nav-links">
+                <a href="/" class="active">Home</a>
+                <a href="/translator">Live Translator</a>
+                <a href="/guide">Booklet & Video</a>
+                <a href="/about">About</a>
+            </nav>
+            <a href="/translator" class="cta-nav">Launch Camera</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="main-container" style="margin-top: 130px;">
+        <section class="hero-grid">
+            
+            <!-- Left Side: Headline & Description -->
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="line-reveal"><span>Bridge Silence with</span></span>
+                    <span class="line-reveal"><span>Real-Time Sign &</span></span>
+                    <span class="line-reveal"><span>Audio Translator</span></span>
+                </h1>
+                
+                <p class="hero-description scroll-light">
+                    Experience seamless communication powered by custom computer vision and instant audio synthesis. Translate hand gestures effortlessly into spoken words in real time.
+                </p>
+
+                <div class="btn-group">
+                    <a href="/translator" class="btn-primary"><i class="fa-solid fa-camera"></i> Start Translator</a>
+                    <a href="/guide" class="btn-secondary"><i class="fa-solid fa-book-open"></i> User Guide</a>
+                </div>
+            </div>
+
+            <!-- Right Side: Hand Gesture Video Showcase -->
+            <div class="hero-media glass-card">
+                <div class="embed-container">
+                    <video autoplay loop muted playsinline preload="auto">
+                        <source src="{{ url_for('static', filename='video/hero-bg.mp4') }}" type="video/mp4">
+                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                        Your browser does not support video playback.
+                    </video>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 SignTranslate Framework. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scroll Lighting Animation Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const lightElements = document.querySelectorAll(".scroll-light");
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("lit-up");
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            lightElements.forEach(el => observer.observe(el));
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignTranslate - Booklet & Video Guide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fa-solid fa-hands-asl-interpreting"></i>
+                <span>Sign<span>Translate</span></span>
+            </a>
+            <nav class="nav-links">
+                <a href="/">Home</a>
+                <a href="/translator">Live Translator</a>
+                <a href="/guide" class="active">Booklet & Video</a>
+                <a href="/about">About</a>
+            </nav>
+            <a href="/translator" class="cta-nav">Launch Camera</a>
+        </div>
+    </header>
+
+    <main class="main-container" style="margin-top: 130px;">
+        <section class="glass-panel">
+            <div class="section-header">
+                <h2>
+                    <span class="line-reveal"><span><i class="fa-solid fa-book-open gradient-icon"></i> System Guide &</span></span>
+                    <span class="line-reveal"><span>Demonstrations</span></span>
+                </h2>
+                <p class="scroll-light">Explore gesture reference booklet and video demonstration side by side.</p>
+            </div>
+
+            <div class="side-by-side-grid">
+                
+                <!-- Gesture Reference Guide Booklet -->
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-book gradient-icon"></i> Gesture Reference Booklet</h3>
+                    <div class="embed-container" style="overflow-y: auto; padding: 1rem; display: block; height: 380px;">
+                        
+                        <div style="background: rgba(18, 14, 29, 0.6); padding: 1rem; border-radius: 8px; margin-bottom: 0.8rem; border-left: 4px solid var(--c-violet);">
+                            <h4 style="color: var(--c-lavender);">1. Hello / Greeting</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.2rem;">Extend open hand with palm facing forward and move side-to-side gently.</p>
+                        </div>
+
+                        <div style="background: rgba(18, 14, 29, 0.6); padding: 1rem; border-radius: 8px; margin-bottom: 0.8rem; border-left: 4px solid var(--c-violet);">
+                            <h4 style="color: var(--c-lavender);">2. Thank You</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.2rem;">Touch fingers to chin and move hand forward towards person.</p>
+                        </div>
+
+                        <div style="background: rgba(18, 14, 29, 0.6); padding: 1rem; border-radius: 8px; margin-bottom: 0.8rem; border-left: 4px solid var(--c-violet);">
+                            <h4 style="color: var(--c-lavender);">3. Yes / Affirmative</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.2rem;">Form a fist and nod it up and down slowly at wrist.</p>
+                        </div>
+
+                        <div style="background: rgba(18, 14, 29, 0.6); padding: 1rem; border-radius: 8px; margin-bottom: 0.8rem; border-left: 4px solid var(--c-violet);">
+                            <h4 style="color: var(--c-lavender);">4. Please</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.2rem;">Place open hand over chest and move in circular motion.</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Centered YouTube Video Tutorial -->
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-circle-play gradient-icon"></i> Sign Language Tutorial Video</h3>
+                    <div class="embed-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/v1desDduz5M" 
+                            title="Sign Language Tutorial Video" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            style="width: 100%; height: 100%; border: 0;">
+                        </iframe>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 SignTranslate Framework. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scroll Lighting Animation Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const lightElements = document.querySelectorAll(".scroll-light");
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("lit-up");
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            lightElements.forEach(el => observer.observe(el));
+        });
+    </script>
+
+</body>
+</html>

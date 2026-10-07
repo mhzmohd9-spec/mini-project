@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignTranslate - Live Translator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fa-solid fa-hands-asl-interpreting"></i>
+                <span>Sign<span>Translate</span></span>
+            </a>
+            <nav class="nav-links">
+                <a href="/">Home</a>
+                <a href="/translator" class="active">Live Translator</a>
+                <a href="/guide">Booklet & Video</a>
+                <a href="/about">About</a>
+            </nav>
+            <a href="/translator" class="cta-nav">Launch Camera</a>
+        </div>
+    </header>
+
+    <main class="main-container" style="margin-top: 130px;">
+        <section class="card-section glass-panel">
+            <div class="section-header">
+                <h2>
+                    <span class="line-reveal"><span><i class="fa-solid fa-camera gradient-icon"></i> Live Gesture</span></span>
+                    <span class="line-reveal"><span>Recognition Stream</span></span>
+                </h2>
+                <p class="scroll-light">Position your hand inside the camera view for instant gesture detection and speech synthesis.</p>
+            </div>
+
+            <!-- Side-by-Side: Camera & Detected Output -->
+            <div class="side-by-side-grid">
+                
+                <!-- Clean Camera Stream Box -->
+                <div class="glass-card media-box">
+                    <h3><i class="fa-solid fa-video gradient-icon"></i> Clean Camera Feed</h3>
+                    <div class="embed-container">
+                        <img src="{{ url_for('video_feed') }}" alt="Webcam Stream" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+
+                <!-- Detected Gesture & Speech Controls Box -->
+                <div class="glass-card media-box" style="justify-content: space-between;">
+                    <div>
+                        <h3><i class="fa-solid fa-volume-high gradient-icon"></i> Detected Output</h3>
+                        
+                        <div style="background: rgba(18, 14, 29, 0.6); padding: 2rem; border-radius: 12px; border: 1px solid var(--card-border); margin-top: 1rem; text-align: center;">
+                            <span style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Recognized Gesture</span>
+                            <h1 id="translated-text" style="font-size: 2.5rem; color: var(--c-lavender); margin-top: 0.5rem;">Waiting for hand input...</h1>
+                            
+                            <!-- Animated Sound Wave Visualizer -->
+                            <div class="audio-wave-box" id="wave-box">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                        </div>
+
+                        <!-- Audio TTS Controls -->
+                        <div class="tts-controls-panel">
+                            <div class="control-row">
+                                <label><i class="fa-solid fa-gauge"></i> Speed Rate</label>
+                                <input type="range" id="rate-slider" min="0.5" max="2" value="1" step="0.1">
+                            </div>
+                            <div class="control-row">
+                                <label><i class="fa-solid fa-sliders"></i> Pitch Control</label>
+                                <input type="range" id="pitch-slider" min="0.5" max="2" value="1" step="0.1">
+                            </div>
+                            <div style="display: flex; gap: 0.8rem; margin-top: 1rem;">
+                                <button class="btn-icon" id="btn-mute"><i class="fa-solid fa-volume-high"></i> Mute</button>
+                                <button class="btn-icon" id="btn-replay"><i class="fa-solid fa-rotate-right"></i> Replay Audio</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 SignTranslate Framework. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Text-to-Speech & Sound Wave Script -->
+    <script>
+        let isMuted = false;
+        let lastText = "Waiting for hand input...";
+
+        function speakText(text) {
+            if (isMuted || !('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = parseFloat(document.getElementById('rate-slider').value);
+            utterance.pitch = parseFloat(document.getElementById('pitch-slider').value);
+
+            const waveBox = document.getElementById('wave-box');
+            utterance.onstart = () => waveBox.classList.add('playing');
+            utterance.onend = () => waveBox.classList.remove('playing');
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        document.getElementById('btn-mute').addEventListener('click', function() {
+            isMuted = !isMuted;
+            this.innerHTML = isMuted ? '<i class="fa-solid fa-volume-xmark"></i> Unmute' : '<i class="fa-solid fa-volume-high"></i> Mute';
+        });
+
+        document.getElementById('btn-replay').addEventListener('click', function() {
+            speakText(lastText);
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const lightElements = document.querySelectorAll(".scroll-light");
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add("lit-up");
+                });
+            }, { threshold: 0.2 });
+            lightElements.forEach(el => observer.observe(el));
+        });
+    </script>
+
+</body>
+</html>
